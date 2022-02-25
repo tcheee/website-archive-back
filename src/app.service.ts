@@ -65,10 +65,40 @@ export class AppService {
   }
 
   async getAllArchives(): Promise<string[]> {
-    return;
+    try {
+      const { data, error } = await this.supabase.rpc('all_archive');
+      if (error) {
+        throw new Error(error);
+      }
+      return data;
+    } catch (err) {
+      return err.message;
+    }
   }
 
   async getAllTimestamps(website: string): Promise<string[]> {
-    return;
+    try {
+      const { data, error } = await this.supabase
+        .from('archive')
+        .select(
+          `
+          timestamp
+          `,
+        )
+        .match({ website });
+      if (error) {
+        throw new BadRequestException(error);
+      }
+      if (data.length === 0) {
+        throw new NotFoundException(
+          'We found nothing for this website at this timestamp. Try something else.',
+        );
+      }
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.log(err);
+      return err.message;
+    }
   }
 }
