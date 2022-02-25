@@ -12,3 +12,5 @@ As I used a free tier on Heroku, you may encounter issues while accessing it. If
 To run it locally, you must have docker, you should be able to going into the folder and run :
   - docker build . -t nest-web-app
   - docker run -p 49160:5000 nest-web-app
+
+/!\ If you want to run it locally, you must provide a ".env" file with the SUPABASE URL and Key!
